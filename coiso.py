@@ -35,6 +35,17 @@ fundomenu = pygame.transform.scale(fundomenu, (LARGURA, ALTURA))
 brilho = pygame.image.load("imagens/brilho_dourado.png").convert_alpha() #é a estrelinha da cutscene
 brilho = pygame.transform.smoothscale(brilho, (300, 300))
 
+#imagens de fundo da tela de jogo principal
+fundojogo = pygame.image.load('imagens/mestre_em_cultivacao.png')
+fundojogo = pygame.transform.scale(fundojogo,(LARGURA,ALTURA))
+
+#barra_lateral = pygame.image.load('imagens/barra_lateral.png')
+#barra_rect = barra_lateral.get_rect(topleft=(0, 70))
+
+
+barra_lateral = pygame.image.load("imagens/barra_lateral.png")
+
+
 
 #musica de fundo
 pygame.mixer.music.load("musicas/menu.mp3")
@@ -42,9 +53,9 @@ pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
 
 #variaveis
-tanomenu = True
 rodando = True
-cutscene = True
+estado_de_jogo = 'menu'
+
 
 centro = (LARGURA//2, ALTURA//2)
 inicio = 0
@@ -72,15 +83,15 @@ while rodando:
             rodando = False
         if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
             #verifica se apertou com o botao esquerdo do mouse
-            if tanomenu == True and botao_iniciar.collidepoint(evento.pos):
+            if estado_de_jogo == 'menu' and botao_iniciar.collidepoint(evento.pos):
                 #verifica se ta no menu e o clique ta no botao
-                tanomenu = False
+                estado_de_jogo = 'cutscene'
                 inicio = pygame.time.get_ticks() # é o inicio desde a contagem pra cutscene acabar
 
 
     #Desenho
     tela.blit(fundomenu, (0, 0))
-    if tanomenu == True:
+    if estado_de_jogo == 'menu':
         #mostra o menu
         pygame.draw.rect(tela, (0, 200, 100), botao_iniciar)
         tela.blit(titulo, (x_titulo, y_titulo))
@@ -88,7 +99,7 @@ while rodando:
 
 
     # essa é a parte da cutscene
-    elif tanomenu == False and cutscene == True:
+    if estado_de_jogo == 'cutscene':
         tela.fill((0,0,0))
         passou = pygame.time.get_ticks() - inicio
 
@@ -106,12 +117,13 @@ while rodando:
 
 
         if pygame.time.get_ticks() - inicio >= 35000:
-            cutscene = False
+            estado_de_jogo = 'jogo'
 
 
     #esse é o começo do jogo
-    elif cutscene == False and tanomenu == False:
-        tela.fill((255, 255, 255))
+    if estado_de_jogo == 'jogo':
+        tela.blit(fundojogo, (0,0))
+        tela.blit(barra_lateral, (200,250))
 
 
     pygame.display.flip() #fica recarregando o frame
