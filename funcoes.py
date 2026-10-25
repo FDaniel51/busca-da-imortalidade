@@ -1,3 +1,6 @@
+import pygame
+
+
 def fade(passou, entrada, fica, saida): # efeito fade pra objetos
     if passou < entrada: #parte de aparecer
         return passou/entrada * 255
@@ -23,3 +26,14 @@ class CoisoFade:
         alpha = fade(max(0, passou - self.atraso), self.entrada, self.ficar, self.saida)
         self.elemento.set_alpha(int(alpha)) #alpha é transparencia
         tela.blit(self.elemento, self.rect)
+
+#cria uma borda coisada e bonita
+def criar_borda(tela, x, y, largura, altura):
+    MARROM = pygame.Color("#4B261C"),
+    DOURADO = pygame.Color("#BC9148"),
+    CLARINHO = pygame.Color("#DECC9A")
+    pygame.draw.rect(tela, MARROM, (x, y, largura, altura), 2, border_radius=5)
+    pygame.draw.rect(tela, DOURADO, (x + 2, y + 2, largura - 4, altura - 4), 1, border_radius=4)
+    pygame.draw.rect(tela, MARROM, (x + 3, y + 3, largura - 6, altura - 6), 2, border_radius=3)
+    pygame.draw.rect(tela, DOURADO, (x + 5, y + 5, largura - 10, altura - 10), 1, border_radius=2)
+    pygame.draw.rect(tela, CLARINHO, (x + 6, y + 6, largura - 12, altura - 12), border_radius=2)
