@@ -103,13 +103,35 @@ while rodando:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             rodando = False
-        if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+        elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
             #verifica se apertou com o botao esquerdo do mouse
             if estado_de_jogo == 'menu' and botao_iniciar.collidepoint(evento.pos):
                 #verifica se ta no menu e o clique ta no botao
                 estado_de_jogo = 'cutscene'
                 inicio = pygame.time.get_ticks() # é o inicio desde a contagem pra cutscene acabar
-        if evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE and estado_de_jogo == 'cutscene':
+
+
+            elif estado_de_jogo == 'jogo':
+                if botao_templo.collidepoint(evento.pos):
+                    tab_jogo = 'templo'
+                elif botao_escrituras.collidepoint(evento.pos):
+                    tab_jogo = 'escrituras'
+                elif botao_missoes.collidepoint(evento.pos):
+                    tab_jogo = 'missoes'
+                elif botao_seitas.collidepoint(evento.pos):
+                    tab_jogo = 'seitas'
+                elif botao_mercado.collidepoint(evento.pos):
+                    tab_jogo = 'mercado'
+                elif botao_inventario.collidepoint(evento.pos):
+                    tab_jogo = 'inventario'
+                elif botao_mundo.collidepoint(evento.pos):
+                    tab_jogo = 'mundo'
+                elif botao_renascimento.collidepoint(evento.pos):
+                    tab_jogo = 'renascimento'
+
+
+
+        elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE and estado_de_jogo == 'cutscene':
             estado_de_jogo = 'jogo'
 
 
