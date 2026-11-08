@@ -1,5 +1,8 @@
 import pygame
-from funcoes import Botao, CoisoFade, criar_borda, descobrir_nivel
+from funcoes import CoisoFade, criar_borda 
+from cultivo import Cultivo
+from botao import Botao
+
 pygame.init()
 tela = pygame.display.set_mode((1920, 1080), pygame.SCALED | pygame.FULLSCREEN)
 LARGURA, ALTURA = 1920, 1080 # variaveis da resolucao
@@ -32,6 +35,10 @@ botao_cultivo = Botao(0,0,350,100,"Cultivar 氣",fonte_chines)
 
 # Centraliza o retângulo interno do botão na área de cultivo
 botao_cultivo.rect.center = area_cultivo.center
+
+#Botão do refino
+botao_refinar = Botao(0,0,185,100,'Refinar', fonte_chique_botao)
+botao_refinar.rect.midleft = (area_cultivo.left + 5 , area_cultivo.centery )
 
 #-------------
 #textos
@@ -80,20 +87,11 @@ texto6 = CoisoFade(fonte_chique.render("...", True, (255, 255, 255)), centro, 22
 texto7 = CoisoFade(fonte_chique.render("É sério isso?", True, (255, 255, 255)), centro, 26000, 500, 2000, 500)
 texto8 = CoisoFade(fonte_chines.render("VOCÊ FOI REENCARNADO EM UM MUNDO 仙侠", True, (255, 255, 255)), centro, 30000, 500, 3000, 500)
 
-#parametros do cultivo
-pontos = 0
-pontos_por_clique = 1
-nivel_atual = 0
+#parametros do cultivo:
+#cultivo recebe os atributos da classe Cultivo
+cultivo = Cultivo()
 mensagem_nivel = ""
 fim_mensagem_nivel = 0
-
-NIVEIS_REFINO = [
-    ("Refino de Qi", 0),
-    ("Estabelecimento de Fundação", 10),
-    ("Núcleo Dourado", 25),
-    ("Alma Nascente", 50),
-    ("Transformação Espiritual", 100),
-]
 
 
 while rodando:
@@ -128,13 +126,12 @@ while rodando:
                 #verifica o apertar do botão de Qi
                 elif tab_jogo == 'templo':
                     if botao_cultivo.foi_clicado(evento):
-                        nivel_anterior = nivel_atual
-                        pontos += pontos_por_clique
-                        nivel_atual = descobrir_nivel(pontos,NIVEIS_REFINO)
-                        if nivel_atual > nivel_anterior:
-                            nome_nivel = NIVEIS_REFINO[nivel_atual][0]
-                            mensagem_nivel = f"Novo nível: {nome_nivel}"
-                            fim_mensagem_nivel = pygame.time.get_ticks() + 2500
+                        cultivo.cultivar()
+                    elif botao_refinar.foi_clicado(evento):
+                            if cultivo.refinar():
+                                mensagem_nivel = (f'Novo nível: {cultivo.nome_nivel()}')
+                                fim_mensagem_nivel = pygame.time.get_ticks() + 2500
+
         elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE and estado_de_jogo == 'cutscene':
             estado_de_jogo = 'jogo'
     #Desenho
@@ -188,16 +185,53 @@ while rodando:
             criar_borda(tela,area_nivel.x,area_nivel.y,area_nivel.width,area_nivel.height,)
 
             #desenha o texto mostrando numero de qi e o botao de Qi
-            texto_qi = fonte_chique.render(f'Qi: {pontos}', True, MARROM)
+            texto_qi = fonte_chique.render(f'Qi: {cultivo.qi}', True, MARROM)
             texto_qi_rect = texto_qi.get_rect(midright=(area_cultivo.right - 75, area_cultivo.centery))
             tela.blit(texto_qi, texto_qi_rect)
             botao_cultivo.desenhar(tela)
-
+            botao_refinar.texto = ("Nivel maximo" if cultivo.custo_proximo_nivel() is None else 'Refinar')
+            botao_refinar.desenhar(tela)
             #Desenha o texto de niveis
-            nome_nivel = NIVEIS_REFINO[nivel_atual][0]
-            texto_nivel = fonte_chique.render(f"Nível atual: {nome_nivel}",True,MARROM,)
+            texto_nivel = fonte_chique.render(f"Nível atual: {cultivo.nome_nivel()}",True,MARROM,)
             texto_nivel_rect = texto_nivel.get_rect(midtop=(LARGURA // 2, 40))
             tela.blit(texto_nivel, texto_nivel_rect)
+
+            custo_proximo = cultivo.custo_proximo_nivel()
+            if custo_proximo is None:
+                texto_progresso = fonte_chique_botao.render(
+                    "Nível máximo",
+                    True,
+                    MARROM,
+                )
+                texto_custo_refino = fonte_chique_botao.render('Nível máximo de refino', True, MARROM)
+            else:
+                texto_progresso = fonte_chique_botao.render(
+                    f"Proximo: {cultivo.nome_proximo_nivel()}",
+                    True,
+                    MARROM,
+                )
+                texto_custo_refino = fonte_chique_botao.render(f'Custo de Refino: {custo_proximo}',True, MARROM)
+
+            texto_progresso_rect = texto_progresso.get_rect(midbottom=(LARGURA // 2, 125))
+            texto_custo_refino_rect = texto_custo_refino.get_rect(midbottom=(area_cultivo.centerx,area_cultivo.bottom))
+
+            tela.blit(texto_progresso, texto_progresso_rect)
+            tela.blit(texto_custo_refino,texto_custo_refino_rect)
+
+            # Mensagem temporária ao subir de nível
+            if pygame.time.get_ticks() < fim_mensagem_nivel:
+                texto_mensagem = fonte_chique.render(
+                    mensagem_nivel,
+                    True,
+                    DOURADO,
+                )
+
+                tela.blit(
+                    texto_mensagem,
+                    texto_mensagem.get_rect(
+                        center=(LARGURA // 2, 180)
+                    ),
+                )
 
     pygame.display.flip() #fica recarregando o frame
     relogio.tick(60) # fps
