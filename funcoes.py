@@ -37,3 +37,7 @@ def criar_borda(tela, x, y, largura, altura):
     pygame.draw.rect(tela, MARROM, (x + 3, y + 3, largura - 6, altura - 6), 2, border_radius=3)
     pygame.draw.rect(tela, DOURADO, (x + 5, y + 5, largura - 10, altura - 10), 1, border_radius=2)
     pygame.draw.rect(tela, CLARINHO, (x + 6, y + 6, largura - 12, altura - 12), border_radius=2)
+
+
+
+
