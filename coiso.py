@@ -14,6 +14,8 @@ fonte = pygame.font.Font(None, 40)
 fonte_chines = pygame.font.Font("fontes/NotoSansSC-Bold.ttf", 60)
 fonte_chique = pygame.font.Font("fontes/Cinzel-VariableFont_wght.ttf", 40)
 fonte_chique_botao = pygame.font.Font("fontes/Cinzel-VariableFont_wght.ttf", 25) #fonte menor pra caber no botao
+fonte_barra_titulo = pygame.font.Font("fontes/Cinzel-VariableFont_wght.ttf", 28)
+fonte_barra_subtitulo = pygame.font.Font("fontes/Cinzel-VariableFont_wght.ttf", 18)
 #-------------
 
 #botão da tela pré-cutscene
@@ -75,6 +77,7 @@ MARROM = pygame.Color("#4B261C")
 DOURADO = pygame.Color("#BC9148")
 PRETO = pygame.Color("#201A14")
 CLARINHO = pygame.Color('#DECC9A')
+CINZA = pygame.Color('#8C8577')
 
 #objetos      as variaveis sao elemento, pos, atraso, entrada, ficar, saida
 texto1 = CoisoFade(fonte_chique.render("Então essa é a morte...", True, (255, 255, 255)), centro, 0, 500, 2000, 500)
@@ -92,6 +95,7 @@ texto8 = CoisoFade(fonte_chines.render("VOCÊ FOI REENCARNADO EM UM MUNDO 仙侠
 cultivo = Cultivo()
 mensagem_nivel = ""
 fim_mensagem_nivel = 0
+
 
 
 while rodando:
@@ -232,6 +236,30 @@ while rodando:
                         center=(LARGURA // 2, 180)
                     ),
                 )
+
+        #SEÇÃO DAS ESCRITURAS -----------------------------------------
+        if tab_jogo == 'escrituras':
+            criar_borda(tela, 400, 140, 1200, 800)
+
+            # tabela das tecnicas de qi---------------------------------------------------------
+            pygame.draw.rect(tela, CINZA, (430, 172, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (430, 280, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (430, 388, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (430, 496, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (430, 604, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (430, 712, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (430, 820, 560, 88), 2, border_radius=5)
+
+            # tabela das habilidades-------------------------------------------------------------
+            pygame.draw.rect(tela, CINZA, (1010, 172, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (1010, 280, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (1010, 388, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (1010, 496, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (1010, 604, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (1010, 712, 560, 88), 2, border_radius=5)
+            pygame.draw.rect(tela, CINZA, (1010, 820, 560, 88), 2, border_radius=5)
+
+
 
     pygame.display.flip() #fica recarregando o frame
     relogio.tick(60) # fps
