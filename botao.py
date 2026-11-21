@@ -6,10 +6,11 @@ class Botao:
     a cor de hover no botão deve existir, se o botão dever arredondado nas bordas, a cor do texto,
     cor da borda, etc.'''
 
-    def __init__(self, x, y, largura, altura, texto, fonte):
+    def __init__(self, x, y, largura, altura, texto, fonte, id_botao=None):
         self.rect = pygame.Rect(x, y, largura, altura)
         self.texto = texto
         self.fonte = fonte
+        self.id_botao = id_botao
         self.clicado = False
 
     def desenhar(self, tela):
