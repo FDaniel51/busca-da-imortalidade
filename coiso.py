@@ -26,9 +26,9 @@ botao_templo       = Botao(40, 257, 227, 64, "Templo", fonte_chique_botao)
 botao_escrituras   = Botao(40, 331, 227, 64, "Escrituras", fonte_chique_botao)
 botao_missoes      = Botao(40, 404, 227, 64, "Missões", fonte_chique_botao)
 botao_seitas       = Botao(40, 477, 227, 64, "Seitas", fonte_chique_botao)
-botao_mercado      = Botao(40, 551, 227, 64, "Mercado", fonte_chique_botao)
-botao_inventario   = Botao(40, 624, 227, 64, "Inventário", fonte_chique_botao)
-botao_mundo        = Botao(40, 697, 227, 64, "Mundo", fonte_chique_botao)
+botao_talento      = Botao(40, 551, 227, 64, "Talento", fonte_chique_botao)
+botao_mercado      = Botao(40, 624, 227, 64, "Mercado", fonte_chique_botao)
+botao_inventario   = Botao(40, 697, 227, 64, "Inventário", fonte_chique_botao)
 botao_renascimento = Botao(40, 771, 227, 64, "Renascimento", fonte_chique_botao)
 # Área onde acontece o cultivo
 area_cultivo = pygame.Rect(600, 700, 800, 200)
@@ -69,13 +69,32 @@ fundomenu = pygame.image.load("imagens/fundomenu.png")
 fundomenu = pygame.transform.scale(fundomenu, (LARGURA, ALTURA))
 brilho = pygame.image.load("imagens/brilho_dourado.png").convert_alpha() #é a estrelinha da cutscene
 brilho = pygame.transform.smoothscale(brilho, (300, 300))
-nucleo = pygame.image.load("imagens/nucleo.png").convert_alpha()
-nucleo = pygame.transform.smoothscale(nucleo, (400, 400))
 centro_nucleo = (1000, ALTURA // 2)
+nucleo1 = pygame.image.load("imagens/nucleo_1_azul.png").convert_alpha()
+nucleo1 = pygame.transform.smoothscale(nucleo1, (400, 400))
+nucleo2 = pygame.image.load("imagens/nucleo_2_jade.png").convert_alpha()
+nucleo2 = pygame.transform.smoothscale(nucleo2, (400, 400))
+nucleo3 = pygame.image.load("imagens/nucleo_3_dourado.png").convert_alpha()
+nucleo3 = pygame.transform.smoothscale(nucleo3, (400, 400))
+nucleo4 = pygame.image.load("imagens/nucleo_4_roxo.png").convert_alpha()
+nucleo4 = pygame.transform.smoothscale(nucleo4, (400, 400))
+nucleo5 = pygame.image.load("imagens/nucleo_5_carmesim.png").convert_alpha()
+nucleo5 = pygame.transform.smoothscale(nucleo5, (400, 400))
+nucleo6 = pygame.image.load("imagens/nucleo_6_prata.png").convert_alpha()
+nucleo6 = pygame.transform.smoothscale(nucleo6, (400, 400))
+nucleos = [nucleo1, nucleo2, nucleo3, nucleo4, nucleo5, nucleo6]
 #imagens de fundo da tela de jogo principal
-fundojogo = pygame.image.load('imagens/fundochines.png')
-fundojogo = pygame.transform.scale(fundojogo,(LARGURA,ALTURA))
-barra_lateral = pygame.image.load("imagens/barra_lateral2.png").convert_alpha()
+fundotemplo = pygame.image.load('imagens/fundotemplo.png')
+fundotemplo = pygame.transform.scale(fundotemplo,(LARGURA,ALTURA))
+livraria = pygame.image.load('imagens/livraria.jpg')
+livraria = pygame.transform.scale(livraria,(LARGURA,ALTURA))
+seita = pygame.image.load('imagens/seita.jpg')
+seita = pygame.transform.scale(seita,(LARGURA,ALTURA))
+mercado = pygame.image.load('imagens/mercado.jpg')
+mercado = pygame.transform.scale(mercado,(LARGURA,ALTURA))
+treino = pygame.image.load('imagens/treino.jpg')
+treino = pygame.transform.scale(treino,(LARGURA,ALTURA))
+barra_lateral = pygame.image.load("imagens/barra_lateral.png").convert_alpha()
 #imagens da aba de escrituras
 qi_ambiente = pygame.image.load('imagens/QiAmbiente.png')
 qi_ambiente = pygame.transform.scale(qi_ambiente,(60,60))
@@ -150,12 +169,12 @@ while rodando:
                     tab_jogo = 'missoes'
                 elif botao_seitas.foi_clicado(evento):
                     tab_jogo = 'seitas'
+                elif botao_talento.foi_clicado(evento):
+                    tab_jogo = 'talento'
                 elif botao_mercado.foi_clicado(evento):
                     tab_jogo = 'mercado'
                 elif botao_inventario.foi_clicado(evento):
                     tab_jogo = 'inventario'
-                elif botao_mundo.foi_clicado(evento):
-                    tab_jogo = 'mundo'
                 elif botao_renascimento.foi_clicado(evento):
                     tab_jogo = 'renascimento'
                 #verifica o apertar do botão de Qi e Refinar
@@ -170,13 +189,16 @@ while rodando:
                 elif tab_jogo == 'escrituras':
                     if botao_qi_ambiente.foi_clicado(evento):
                         cultivo.comprar_tecnica('qi_ambiente')
-                    for botao in (botao_qi_ambiente,
-                                  botao_fundacao,
-                                  botao_concentrar_respiracao,
-                                  botao_absorcao_de_qi,
-                                  botao_circulacao_de_qi,
-                                  botao_expandir_meridianos,
-                                  botao_cultivar_odantian):
+                    for botao in (
+                            botao_templo,
+                            botao_escrituras,
+                            botao_missoes,
+                            botao_seitas,
+                            botao_talento,
+                            botao_mercado,
+                            botao_inventario,
+                            botao_renascimento,
+                    ):
                         if botao.foi_clicado(evento):
                             cultivo.comprar_tecnica(botao.id_botao)
         
@@ -207,16 +229,25 @@ while rodando:
             estado_de_jogo = 'jogo'
     #esse é o começo do jogo
     elif estado_de_jogo == 'jogo':
-        tela.blit(fundojogo, (0,0))
+        if tab_jogo == 'escrituras':
+            tela.blit(livraria, (0, 0))
+        elif tab_jogo == 'templo':
+            tela.blit(fundotemplo, (0, 0))
+        elif tab_jogo == 'seitas':
+            tela.blit(seita, (0, 0))
+        elif tab_jogo == 'mercado':
+            tela.blit(mercado, (0, 0))
+        elif tab_jogo == 'missoes':
+            tela.blit(treino, (0, 0))
         tela.blit(barra_lateral, (20,140))
         for botao in (
             botao_templo,
             botao_escrituras,
             botao_missoes,
             botao_seitas,
+            botao_talento,
             botao_mercado,
             botao_inventario,
-            botao_mundo,
             botao_renascimento,
         ):
             botao.desenhar(tela)
@@ -227,6 +258,8 @@ while rodando:
 
         if tab_jogo == 'templo':
             criar_borda(tela, 600, 700, 800, 200) #considere essa a superficie do que é pertinente ao cultivo
+            fase = min(cultivo.nivel_atual, len(nucleos) - 1)
+            nucleo = nucleos[fase]
             tela.blit(nucleo, nucleo.get_rect(center=centro_nucleo))
 
             #desenha superficie onde fica o nivel

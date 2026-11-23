@@ -40,4 +40,3 @@ def criar_borda(tela, x, y, largura, altura):
 
 
 
-
