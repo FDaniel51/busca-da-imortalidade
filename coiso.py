@@ -4,6 +4,7 @@ from cultivo import Cultivo
 from botao import Botao
 from tecnicas import TECNICAS
 from talentos import RoletaTalentos
+from inventario import Inventario
 
 pygame.init()
 tela = pygame.display.set_mode((1920, 1080), pygame.SCALED | pygame.FULLSCREEN)
@@ -165,7 +166,8 @@ botao_girar = Botao(850, 800, 300, 80, "Girar", fonte_chique_botao)
 roleta = RoletaTalentos(pygame.Rect(430, 270, 1140, 220),  # onde as cartas passam
                         pygame.Rect(500, 520, 1000, 250))  # onde aparece o resultado
 texto_titulo_talentos = fonte_chique.render("Talentos", True, MARROM)
-
+#inventario
+inventario = Inventario(pygame.Rect(400, 140, 1200, 800))
 while rodando:
 
     delta_segundos = relogio.tick(60) / 1000
@@ -226,6 +228,9 @@ while rodando:
                         if botao.foi_clicado(evento):
                             cultivo.comprar_tecnica(botao.id_botao)
 
+                elif tab_jogo == 'inventario':
+                    inventario.tratar_evento(evento)
+
 
         elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE and estado_de_jogo == 'cutscene':
             estado_de_jogo = 'jogo'
@@ -264,6 +269,8 @@ while rodando:
         elif tab_jogo == 'missoes':
             tela.blit(treino, (0, 0))
         elif tab_jogo == 'talento':
+            tela.blit(fundotemplo, (0, 0))
+        elif tab_jogo == 'inventario':
             tela.blit(fundotemplo, (0, 0))
         tela.blit(barra_lateral, (20, 140))
         for botao in (
@@ -429,6 +436,10 @@ while rodando:
                 )
                 tela.blit(texto_custo, (1028, y + 12))
                 tela.blit(texto_detalhes, (1028, y + 48))
+
+        if tab_jogo == 'inventario':
+            criar_borda(tela, 400, 140, 1200, 800)
+            inventario.desenhar(tela)
 
     pygame.display.flip()  # fica recarregando o frame
 pygame.quit()

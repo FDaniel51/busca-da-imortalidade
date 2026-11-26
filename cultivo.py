@@ -7,7 +7,7 @@ class Cultivo:
         self.acumulador_clique = 0.0
         self.talento_atual = None  # o talento sorteado (ou None)
         self.bonus_talento = 0.0  # % de Qi a mais (12.4 = +12,4%)
-        self.custo_giro_talento = 500  # Qi gasto em cada giro
+        self.custo_giro_talento = 100  # Qi gasto em cada giro
         self.qi_por_clique = 1
         self.nivel_atual = 0
         self.niveis_tecnicas = {
@@ -17,10 +17,10 @@ class Cultivo:
 
         self.niveis = [
     ("Refino de Qi", 0),
-    ("Estabelecimento de Fundação", 200),
-    ("Núcleo Dourado", 5000),
-    ("Alma Nascente", 100000),
-    ("Transformação Espiritual", 2500000),
+    ("Estabelecimento de Fundação", 50),
+    ("Núcleo Dourado", 500),
+    ("Alma Nascente", 5000),
+    ("Transformação Espiritual", 50000),
 ]
         self.acumulador_tempo = 0.0
 
