@@ -107,6 +107,7 @@ class RoletaTalentos:
         self.t_fim = 0
         self.desloc_inicial = 0
         self.alvo = 0
+        self.resultado_coletado = False
 
     # ---------- preparação ----------
     def _criar_carta(self, talento):
@@ -163,13 +164,14 @@ class RoletaTalentos:
         self.indice_centro = POS_VENCEDOR
 
         self.resultado = {"talento": talento, "percentual": percentual}
+        self.resultado_coletado = False
         self.indice_vencedor = None
         self.textos_resultado = []
         self.girando = True
         self.t_inicio = pygame.time.get_ticks()
         return True
 
-    def _atualizar(self):
+    def atualizar(self):
         if not self.girando:
             return
         agora = pygame.time.get_ticks()
@@ -181,6 +183,12 @@ class RoletaTalentos:
             self.indice_vencedor = POS_VENCEDOR
             self.t_fim = agora
             self._montar_textos_resultado()
+
+    def coletar_resultado(self):
+        if not self.girando and self.resultado is not None and not self.resultado_coletado:
+            self.resultado_coletado = True
+            return self.resultado
+        return None
 
     def _montar_textos_resultado(self):
         talento = self.resultado["talento"]
@@ -196,7 +204,6 @@ class RoletaTalentos:
 
     # ---------- desenho ----------
     def desenhar(self, tela):
-        self._atualizar()
         self._desenhar_fita(tela)
         self._desenhar_resultado(tela)
 

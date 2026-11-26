@@ -4,6 +4,10 @@ class Cultivo:
 
     def __init__(self):
         self.qi = 0
+        self.acumulador_clique = 0.0
+        self.talento_atual = None  # o talento sorteado (ou None)
+        self.bonus_talento = 0.0  # % de Qi a mais (12.4 = +12,4%)
+        self.custo_giro_talento = 500  # Qi gasto em cada giro
         self.qi_por_clique = 1
         self.nivel_atual = 0
         self.niveis_tecnicas = {
@@ -21,7 +25,10 @@ class Cultivo:
         self.acumulador_tempo = 0.0
 
     def cultivar(self):
-        self.qi += self.qi_por_clique
+        self.acumulador_clique += self.qi_por_clique * self.multiplicador_talento()
+        ganho = int(self.acumulador_clique)
+        self.qi += ganho
+        self.acumulador_clique -= ganho
 
     def custo_proximo_nivel(self):
         if self.nivel_atual >= len(self.niveis) - 1:
@@ -72,8 +79,22 @@ class Cultivo:
     def ganhar_automaticamente(self, segundos):
         if segundos <= 0:
             return
-        self.acumulador_tempo += segundos * self.calcula_ganho_automatico_por_segundo()
+        self.acumulador_tempo += segundos * self.calcula_ganho_automatico_por_segundo() * self.multiplicador_talento()
         qi_ganho = int(self.acumulador_tempo)
         if qi_ganho > 0:
             self.qi += qi_ganho
             self.acumulador_tempo -= qi_ganho
+
+    def multiplicador_talento(self):
+        return 1 + self.bonus_talento / 100
+
+    def pagar(self, custo):
+        """Tira Qi se tiver o suficiente. Devolve True se pagou."""
+        if self.qi < custo:
+            return False
+        self.qi -= custo
+        return True
+
+    def definir_talento(self, talento, percentual):
+        self.talento_atual = talento
+        self.bonus_talento = percentual

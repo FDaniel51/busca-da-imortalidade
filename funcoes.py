@@ -29,8 +29,8 @@ class CoisoFade:
 
 #cria uma borda coisada e bonita
 def criar_borda(tela, x, y, largura, altura):
-    MARROM = pygame.Color("#4B261C"),
-    DOURADO = pygame.Color("#BC9148"),
+    MARROM = pygame.Color("#4B261C")
+    DOURADO = pygame.Color("#BC9148")
     CLARINHO = pygame.Color("#DECC9A")
     pygame.draw.rect(tela, MARROM, (x, y, largura, altura), 2, border_radius=5)
     pygame.draw.rect(tela, DOURADO, (x + 2, y + 2, largura - 4, altura - 4), 1, border_radius=4)
