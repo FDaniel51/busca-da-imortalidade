@@ -3,6 +3,7 @@ from funcoes import CoisoFade, criar_borda
 from cultivo import Cultivo
 from botao import Botao
 from tecnicas import TECNICAS
+from talentos import RoletaTalentos
 
 pygame.init()
 tela = pygame.display.set_mode((1920, 1080), pygame.SCALED | pygame.FULLSCREEN)
@@ -144,7 +145,11 @@ cultivo = Cultivo()
 mensagem_nivel = ""
 fim_mensagem_nivel = 0
 
-
+#roletinha
+botao_girar = Botao(850, 800, 300, 80, "Girar", fonte_chique)
+roleta = RoletaTalentos(pygame.Rect(430, 270, 1140, 220),    # onde as cartas passam
+                        pygame.Rect(500, 520, 1000, 250))    # onde aparece o resultado
+texto_titulo_talentos = fonte_chique.render("Talentos", True, MARROM)
 
 while rodando:
 
@@ -185,6 +190,10 @@ while rodando:
                             if cultivo.refinar():
                                 mensagem_nivel = (f'Novo nível: {cultivo.nome_nivel()}')
                                 fim_mensagem_nivel = pygame.time.get_ticks() + 2500
+
+                elif tab_jogo == 'talento':
+                    if botao_girar.foi_clicado(evento):
+                        roleta.girar()
 
                 elif tab_jogo == 'escrituras':
                     if botao_qi_ambiente.foi_clicado(evento):
@@ -239,6 +248,8 @@ while rodando:
             tela.blit(mercado, (0, 0))
         elif tab_jogo == 'missoes':
             tela.blit(treino, (0, 0))
+        elif tab_jogo == 'talento':
+            tela.blit(fundotemplo, (0, 0))
         tela.blit(barra_lateral, (20,140))
         for botao in (
             botao_templo,
@@ -314,6 +325,13 @@ while rodando:
                         center=(LARGURA // 2, 180)
                     ),
                 )
+
+        if tab_jogo == 'talento':
+            criar_borda(tela, 400, 140, 1200, 800)
+            tela.blit(texto_titulo_talentos, texto_titulo_talentos.get_rect(midtop=(LARGURA // 2, 165)))
+            roleta.desenhar(tela)
+            botao_girar.texto = "Girando..." if roleta.girando else "Girar"
+            botao_girar.desenhar(tela)
 
         #SEÇÃO DAS ESCRITURAS -----------------------------------------
         if tab_jogo == 'escrituras':
