@@ -5,6 +5,7 @@ from botao import Botao
 from tecnicas import TECNICAS
 from talentos import RoletaTalentos
 from inventario import Inventario
+from seitas import AbaSeitas
 
 pygame.init()
 tela = pygame.display.set_mode((1920, 1080), pygame.SCALED | pygame.FULLSCREEN)
@@ -166,8 +167,9 @@ botao_girar = Botao(850, 800, 300, 80, "Girar", fonte_chique_botao)
 roleta = RoletaTalentos(pygame.Rect(430, 270, 1140, 220),  # onde as cartas passam
                         pygame.Rect(500, 520, 1000, 250))  # onde aparece o resultado
 texto_titulo_talentos = fonte_chique.render("Talentos", True, MARROM)
-#inventario
+#cosias
 inventario = Inventario(pygame.Rect(400, 140, 1200, 800))
+aba_seitas = AbaSeitas(pygame.Rect(400, 140, 1200, 800))
 while rodando:
 
     delta_segundos = relogio.tick(60) / 1000
@@ -231,6 +233,9 @@ while rodando:
                 elif tab_jogo == 'inventario':
                     inventario.tratar_evento(evento)
 
+                elif tab_jogo == 'seitas':
+                    aba_seitas.tratar_evento(evento)
+
 
         elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE and estado_de_jogo == 'cutscene':
             estado_de_jogo = 'jogo'
@@ -264,6 +269,8 @@ while rodando:
             tela.blit(fundotemplo, (0, 0))
         elif tab_jogo == 'seitas':
             tela.blit(seita, (0, 0))
+            criar_borda(tela, area_nivel.x, 150, area_nivel.width, 800)
+            aba_seitas.desenhar(tela)
         elif tab_jogo == 'mercado':
             tela.blit(mercado, (0, 0))
         elif tab_jogo == 'missoes':
