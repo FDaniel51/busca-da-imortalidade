@@ -1,25 +1,5 @@
 import pygame
 
-# =====================================================================
-#  ABA DE MISSÕES  -  módulo independente (precisa só do pygame)
-#
-#  Missões dão CONTRIBUIÇÃO DE SEITA, que pode ser trocada por ROCHAS ESPIRITUAIS.
-#  Sem seita escolhida, a aba mostra que as missões estão bloqueadas.
-#
-#  Como usar no jogo:
-#      from missoes import AbaMissoes
-#      aba_missoes = AbaMissoes(pygame.Rect(400, 140, 1200, 800), obter_seita)
-#      aba_missoes.atualizar()                 # todo frame (no começo do while)
-#      aba_missoes.tratar_evento(evento)       # nos eventos de clique
-#      aba_missoes.desenhar(tela)              # no desenho da aba
-#
-#  obter_seita é uma função sem parâmetros que devolve a seita atual do jogador
-#  (um dicionário com as chaves "nome" e "lado") ou None se ele não tem seita.
-# =====================================================================
-
-# ---------------------------------------------------------------------
-# CONFIGURAÇÃO
-# ---------------------------------------------------------------------
 FONTE_CHINES = "fontes/NotoSansSC-Bold.ttf"
 FONTE_TEXTO = "fontes/Cinzel-VariableFont_wght.ttf"
 

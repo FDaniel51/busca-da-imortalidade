@@ -1,16 +1,5 @@
 import pygame
 
-# =====================================================================
-#  ABA DAS SEITAS  -  módulo independente (precisa só do pygame)
-#
-#  Como usar no jogo:
-#      from seitas import AbaSeitas
-#      aba_seitas = AbaSeitas(pygame.Rect(400, 140, 1200, 800))
-#      aba_seitas.tratar_evento(evento)        # nos eventos de clique
-#      aba_seitas.desenhar(tela)               # no desenho da aba
-#      aba_seitas.seita_atual                  # id da seita (ou None)
-# =====================================================================
-
 # ---------------------------------------------------------------------
 # CONFIGURAÇÃO VISUAL
 # ---------------------------------------------------------------------
