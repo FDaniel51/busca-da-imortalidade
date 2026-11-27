@@ -98,7 +98,7 @@ SEITAS = [
     # ---------------- DEMONÍACO ----------------
     {"id": "demonio_celestial", "nome": "Culto do Demônio Celestial", "chines": "天魔教", "pinyin": "Tiānmó Jiào",
      "lado": "demoniaco",
-     "resumo": "Adoradores do poder absoluto, que desafiam o Céu.",
+     "resumo": "Fiéis do poder absoluto, que desafiam o Céu.",
      "descricao": "Para o culto, o Céu é apenas uma jaula. Seus fiéis buscam um poder sem "
                   "limites e rejeitam qualquer lei que tente contê-los.",
      "bonus": {"qi_pct": 6}},
@@ -258,8 +258,8 @@ class AbaSeitas:
         self.y_fim_cartas = y_cartas + linhas * (ALT_CARTA + ESPACO_CARTAS) - ESPACO_CARTAS
         topo = self.y_fim_cartas + 16
         self.rect_detalhes = pygame.Rect(a.x + 30, topo, a.width - 60, a.bottom - 16 - topo)
-        self.rect_botao = pygame.Rect(self.rect_detalhes.right - 20 - 250,
-                                      self.rect_detalhes.bottom - 20 - 46, 250, 46)
+        self.rect_botao = pygame.Rect(self.rect_detalhes.right - 20 - 300,
+                                      self.rect_detalhes.bottom - 20 - 46, 300, 46)
 
     def _criar_carta(self, seita):
         lado = self.lados[seita["lado"]]

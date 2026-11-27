@@ -6,6 +6,7 @@ from tecnicas import TECNICAS
 from talentos import RoletaTalentos
 from inventario import Inventario
 from seitas import AbaSeitas
+from missoes import AbaMissoes
 
 pygame.init()
 tela = pygame.display.set_mode((1920, 1080), pygame.SCALED | pygame.FULLSCREEN)
@@ -170,8 +171,14 @@ texto_titulo_talentos = fonte_chique.render("Talentos", True, MARROM)
 #cosias
 inventario = Inventario(pygame.Rect(400, 140, 1200, 800))
 aba_seitas = AbaSeitas(pygame.Rect(400, 140, 1200, 800))
-while rodando:
+aba_seitas = AbaSeitas(pygame.Rect(400, 140, 1200, 800))
 
+def obter_seita():
+    return aba_seitas.seitas.get(aba_seitas.seita_atual)
+
+aba_missoes = AbaMissoes(pygame.Rect(400, 140, 1200, 800), obter_seita)
+while rodando:
+    aba_missoes.atualizar()
     delta_segundos = relogio.tick(60) / 1000
     cultivo.ganhar_automaticamente(delta_segundos)
     roleta.atualizar()
@@ -236,6 +243,9 @@ while rodando:
                 elif tab_jogo == 'seitas':
                     aba_seitas.tratar_evento(evento)
 
+                elif tab_jogo =='missoes':
+                    aba_missoes.tratar_evento(evento)
+
 
         elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE and estado_de_jogo == 'cutscene':
             estado_de_jogo = 'jogo'
@@ -269,12 +279,14 @@ while rodando:
             tela.blit(fundotemplo, (0, 0))
         elif tab_jogo == 'seitas':
             tela.blit(seita, (0, 0))
-            criar_borda(tela, area_nivel.x, 150, area_nivel.width, 800)
+            criar_borda(tela, 400, 140, 1200, 800)
             aba_seitas.desenhar(tela)
         elif tab_jogo == 'mercado':
             tela.blit(mercado, (0, 0))
         elif tab_jogo == 'missoes':
             tela.blit(treino, (0, 0))
+            criar_borda(tela, 400, 140, 1200, 800)  # <- faltava
+            aba_missoes.desenhar(tela)
         elif tab_jogo == 'talento':
             tela.blit(fundotemplo, (0, 0))
         elif tab_jogo == 'inventario':
